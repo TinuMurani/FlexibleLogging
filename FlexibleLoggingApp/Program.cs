@@ -9,6 +9,12 @@ namespace FlexibleLoggingApp
     {
         static void Main(string[] args)
         {
+            // daca apare mesaj de la User Account Controls ca e nevoie de alte privilegii
+            // trebuie repornit Visual Studio cu drepturi de administrator (optiunea din fereastra)
+            // sau click dreapta pe executabilul din Debug si 'Run as administrator'
+
+            // daca se modifica din app.manifest linia <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+
             RequireAdministrator();
             ApplicationLog.ConfigureLogger(new WindowsEventLogger());
 
