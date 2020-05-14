@@ -1,7 +1,5 @@
 ﻿using FlexibleLoggingLibrary;
 using System;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
 
 namespace FlexibleLoggingApp
 {
@@ -15,7 +13,6 @@ namespace FlexibleLoggingApp
 
             // daca se modifica din app.manifest linia <requestedExecutionLevel level="asInvoker" uiAccess="false" />
 
-            RequireAdministrator();
             ApplicationLog.ConfigureLogger(new WindowsEventLogger());
 
             int i = 10;
@@ -32,30 +29,6 @@ namespace FlexibleLoggingApp
             }
 
             Console.ReadLine();
-        }
-
-        private static void RequireAdministrator()
-        {
-            try
-            {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
-                    {
-                        WindowsPrincipal principal = new WindowsPrincipal(identity);
-
-                        if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
-                        {
-                            throw new InvalidOperationException($"Application must be run as Administrator." +
-                                $"Right click the '{ AppDomain.CurrentDomain.FriendlyName }.exe' file and select 'Run as administrator'.");
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ApplicationLog.WriteLog(ErrorLevel.Critical, ex.Message, ex.StackTrace);
-            }
         }
     }
 }

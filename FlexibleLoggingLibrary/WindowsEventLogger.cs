@@ -9,7 +9,17 @@ namespace FlexibleLoggingLibrary
     {
         public override void WriteLog(ErrorLevel errorLevel, string errorMessage, string additionalInfo = "")
         {
-            EventLog.WriteEntry("FlexibleLoggingApp", errorMessage + (additionalInfo ?? ""));
+            StringBuilder error = new StringBuilder();
+            error.Append(errorLevel);
+            error.Append(": ");
+            error.Append(errorMessage);
+
+            if (string.IsNullOrWhiteSpace(additionalInfo))
+            {
+                error.AppendLine(additionalInfo);
+            }
+
+            EventLog.WriteEntry("FlexibleLoggingApp", error.ToString());
         }
     }
 }
